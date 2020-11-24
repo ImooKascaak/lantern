@@ -54,7 +54,7 @@ const DeviceList = () => {
             <ul>
               {devices.map(device => (
                 <li key={device.objectId}>
-                  {device.objectId} - {device.deviceName} - {device.osType} - {device.countryIsoCode} - {device.createdAt}
+                  {device.objectId} - {device.deviceName} - {device.osType} - {device.countryIsoCode} - {new Date(device.createdAt).toLocaleDateString()}
                   <input type="button" value="Delete" onClick={() => handleDeviceDelete(device.objectId)} />
                 </li>
               ))}
