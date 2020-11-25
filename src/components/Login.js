@@ -1,22 +1,59 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {
+  Button,
+  Paper,
+  TextField,
+  Typography
+} from '@material-ui/core';
 import { setUserSession } from '../utils/Common';
 
-function Login(props) {
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(13),
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: theme.spacing(7),
+    },
+  },
+  paper: {
+    padding: theme.spacing(5),
+    margin: theme.spacing(1),
+  },
+  title: {
+    margin: theme.spacing(2, 0, 5),
+    textAlign: 'center',
+  },
+  form: {
+    '& > *': {
+      marginBottom: theme.spacing(3),
+      width: '100%',
+    },
+  },
+  loginBtn: {
+    marginTop: theme.spacing(2),
+  },
+  error: {
+    color: 'red',
+    textAlign: 'center',
+  }
+}));
+
+const Login = (props) => {
+  const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const username = useFormInput('');
-  const password = useFormInput('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
-  // handle button click of login form
   const handleLogin = () => {
     setError(null);
     setLoading(true);
 
-    axios.get(`https://parse-wandera.herokuapp.com/parse/login?username=${username.value}&password=${password.value}`,
+    axios.get(`https://parse-wandera.herokuapp.com/parse/login?username=${username}&password=${password}`,
       {
         headers: {
-          "Content-Type": "application/json",
           "X-Parse-Application-Id": "UKB9QAriw4ABOGRwOJ67fXj2Iypx7UQPhj5ZdR66",
           "X-Parse-Rest-Api-Key": "FQ3wONUU2tFb7o8I7nszpAlQkMoxMS6FEbcpXkRz"
         }
@@ -28,38 +65,56 @@ function Login(props) {
       }).catch(error => {
         setLoading(false);
         console.error(error);
-        // if (error.response.status === 401) setError(error.response.data.message);
-        // else setError("Something went wrong. Please try again later.");
+        if (error.response.status === 401) setError(error.response.data.message);
+        else setError("Something went wrong. Please try again later.");
       });
   }
 
   return (
-    <div>
-      Login<br /><br />
-      <div>
-        Username<br />
-        <input type="text" {...username} autoComplete="new-password" />
-      </div>
-      <div style={{ marginTop: 10 }}>
-        Password<br />
-        <input type="password" {...password} autoComplete="new-password" />
-      </div>
-      {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
-      <input type="button" value={loading ? 'Loading...' : 'Login'} onClick={handleLogin} disabled={loading} /><br />
+    <div className={classes.root}>
+      <Paper className={classes.paper} elevation={3}>
+        <Typography variant="h3" color="inherit" className={classes.title}>
+          Login
+        </Typography>
+        <form className={classes.form}>
+          <TextField
+            type="text"
+            id="username"
+            label="Username"
+            value={username}
+            variant="outlined"
+            autoComplete="new-password"
+            onChange={e => setUsername(e.target.value)}
+            required
+            autoFocus
+          />
+          <TextField
+            type="password"
+            id="password"
+            label="Password"
+            value={password}
+            variant="outlined"
+            autoComplete="new-password"
+            onChange={e => setPassword(e.target.value)}
+            required
+          />
+          <Button
+            className={classes.loginBtn}
+            type="button"
+            variant="contained"
+            color="primary"
+            disabled={loading}
+            onClick={handleLogin}
+          >
+            {loading ? 'Loading ...' : 'Login'}
+          </Button>
+          <Typography variant="h6" color="inherit" className={classes.error}>
+            {error && <>{error}</>}
+          </Typography>
+        </form>
+      </Paper>
     </div>
   );
-}
-
-const useFormInput = initialValue => {
-  const [value, setValue] = useState(initialValue);
-
-  const handleChange = e => {
-    setValue(e.target.value);
-  }
-  return {
-    value,
-    onChange: handleChange
-  }
 }
 
 export default Login;
