@@ -1,10 +1,13 @@
-import React from 'react';
-import { BrowserRouter, Switch, NavLink } from 'react-router-dom';
-import { AppBar, Toolbar } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { BrowserRouter, NavLink, Switch } from 'react-router-dom';
+import {
+  AppBar,
+  Button,
+  Toolbar
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import BgImage from './assets/table.webp';
 
-import { removeUserSession } from './utils/Common';
+import { getUser, removeUserSession } from './utils/Common';
 import PrivateRoute from './utils/PrivateRoute';
 import PublicRoute from './utils/PublicRoute';
 
@@ -29,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.common.black,
-    padding: theme.spacing(1, 5),
+    padding: theme.spacing(1, 4),
   },
   content: {
     padding: theme.spacing(10, 0, 0),
@@ -41,9 +44,19 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
+  const [auth, setAuth] = React.useState(false);
+
+  useEffect(() => {
+    const user = getUser();
+    console.log(user);
+    if (user) {
+      setAuth(true);
+    }
+  }, [auth]);
 
   const handleLogout = () => {
     removeUserSession();
+    setAuth(false);
   }
 
   return (
@@ -54,14 +67,13 @@ function App() {
             <NavLink exact activeClassName="active" to="/">
               <img src={`${process.env.PUBLIC_URL}/assets/logo.png`} alt="" width="62px" height="50px" />
             </NavLink>
-            {/* <NavLink activeClassName="active" to="/login">Login</NavLink> */}
-            <input type="button" onClick={handleLogout} value="Logout" />
+            <Button onClick={handleLogout}>Logout</Button>
           </Toolbar>
         </AppBar>
         <main className={classes.content}>
           <Switch>
             <PrivateRoute exact path="/" component={Dashboard} />
-            <PublicRoute path="/login" component={Login} />
+            <PublicRoute path="/login" component={Login} render={{}} />
           </Switch>
         </main>
       </BrowserRouter>

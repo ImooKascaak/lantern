@@ -77,7 +77,7 @@ const DeviceList = () => {
   const columns = [
     {
       field: 'objectId',
-      headerName: 'Delete',
+      headerName: 'Action',
       description: 'Press the ' - ' button to delete the current device',
       sortable: false,
       width: 90,

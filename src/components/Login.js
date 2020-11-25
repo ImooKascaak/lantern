@@ -65,8 +65,7 @@ const Login = (props) => {
       }).catch(error => {
         setLoading(false);
         console.error(error);
-        if (error.response.status === 401) setError(error.response.data.message);
-        else setError("Something went wrong. Please try again later.");
+        setError("Something went wrong. Please try again later.");
       });
   }
 
