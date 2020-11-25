@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, NavLink } from 'react-router-dom';
 import { AppBar, Toolbar } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import BgImage from './assets/table.webp';
 
 import { removeUserSession } from './utils/Common';
 import PrivateRoute from './utils/PrivateRoute';
@@ -17,6 +18,12 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
+    backgroundImage: `url(${BgImage})`,
+    backgroundAttachment: 'fixed',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    position: 'relative',
   },
   toolbar: {
     display: 'flex',
