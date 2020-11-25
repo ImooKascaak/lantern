@@ -10,6 +10,7 @@ const headersObj = {
 }
 
 const DeviceList = () => {
+  const [loading, setLoading] = useState(false);
   const [devices, setDevices] = useState([]);
   const [showDeviceAdd, setShowDeviceAdd] = useState(false);
 
@@ -17,8 +18,8 @@ const DeviceList = () => {
     getDevices();
   }, [showDeviceAdd]);
 
-  function getDevices() {
-    axios.get('/Device', { headers: headersObj })
+  const getDevices = () => {
+    axios.get('https://parse-wandera.herokuapp.com/parse/classes/Device', { headers: headersObj })
       .then(res => {
         console.log(res.data['results']);
         setDevices(res.data['results']);
@@ -28,19 +29,23 @@ const DeviceList = () => {
       })
   }
 
-  function handleDeviceDelete(deletedObjectId) {
-    axios.delete(`/Device/${deletedObjectId}`, { headers: headersObj })
+  const handleDeviceDelete = (deletedObjectId) => {
+    setLoading(true);
+
+    axios.delete(`https://parse-wandera.herokuapp.com/parse/classes/Device/${deletedObjectId}`, { headers: headersObj })
       .then(res => {
         console.log(res);
+        setLoading(false);
         getDevices();
         // alert(`Device with objectId: ${deletedObjectId} was deleted.`);
       })
       .catch(err => {
+        setLoading(false);
         console.error(err);
       })
   }
 
-  function handleDeviceAdd(_showDeviceAdd) {
+  const handleDeviceAdd = (_showDeviceAdd) => {
     setShowDeviceAdd(_showDeviceAdd);
   }
 
@@ -59,7 +64,7 @@ const DeviceList = () => {
                 </li>
               ))}
             </ul>
-            <input type="button" value="Add new device" onClick={() => handleDeviceAdd(true)} />
+            <input type="button" value="Create new device" onClick={() => handleDeviceAdd(true)} />
           </div>
       }
     </div>
