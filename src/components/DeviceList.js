@@ -80,6 +80,7 @@ const DeviceList = () => {
       headerName: 'Action',
       description: 'Press the ' - ' button to delete the current device',
       sortable: false,
+      align: 'center',
       width: 90,
       disableClickEventBubbling: true,
       renderCell: (params) => {
@@ -97,12 +98,20 @@ const DeviceList = () => {
     },
     { field: 'deviceName', headerName: 'Device name', width: 230 },
     { field: 'osType', headerName: 'Phone OS type', width: 150, sortable: false, },
-    { field: 'countryIsoCode', headerName: 'Country code', description: 'Domestic country code', width: 100 },
+    {
+      field: 'countryIsoCode',
+      headerName: 'Country code',
+      description: 'Domestic country code',
+      align: 'center',
+      width: 120
+    },
     {
       field: 'createdAt',
       headerName: 'Create date',
-      width: 200,
-      format: (value) => new Date(value).toLocaleDateString()
+      description: 'Create date',
+      align: 'center',
+      width: 120,
+      valueGetter: (params) => `${new Date(params.getValue('createdAt')).toLocaleDateString()}`,
     },
   ];
 
