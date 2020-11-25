@@ -18,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundImage: `url(${BgImage})`,
-    backgroundAttachment: 'fixed',
+    backgroundImage: `url(${process.env.PUBLIC_URL}/assets/table.webp)`,
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
@@ -52,8 +51,10 @@ function App() {
       <BrowserRouter>
         <AppBar>
           <Toolbar className={classes.toolbar}>
-            <NavLink exact activeClassName="active" to="/">Home</NavLink>
-            <NavLink activeClassName="active" to="/login">Login</NavLink>
+            <NavLink exact activeClassName="active" to="/">
+              <img src={`${process.env.PUBLIC_URL}/assets/logo.png`} alt="" width="62px" height="50px" />
+            </NavLink>
+            {/* <NavLink activeClassName="active" to="/login">Login</NavLink> */}
             <input type="button" onClick={handleLogout} value="Logout" />
           </Toolbar>
         </AppBar>
