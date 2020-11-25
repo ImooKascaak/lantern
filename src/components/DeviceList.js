@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     height: '500px',
     width: '850px',
     [theme.breakpoints.down('md')]: {
-      height: '430px',
+      height: 'calc(70vh - 100px)',
       width: '600px',
     },
     [theme.breakpoints.down('xs')]: {

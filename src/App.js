@@ -48,7 +48,6 @@ function App() {
 
   useEffect(() => {
     const user = getUser();
-    console.log(user);
     if (user) {
       setAuth(true);
     }
