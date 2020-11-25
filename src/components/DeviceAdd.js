@@ -162,7 +162,7 @@ const DeviceAdd = (props) => {
         </form>
       </div>
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right', }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left', }}
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
