@@ -9,14 +9,9 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { DataGrid } from '@material-ui/data-grid';
 
-import DeviceAdd, { Alert } from './DeviceAdd';
+import { getToken, requestHeaders } from '../utils/Common';
 
-const headersObj = {
-  "Content-Type": "application/json",
-  "X-Parse-Session-Token": "r:b5382b28beb25fdde4f952a8acdace65",
-  "X-Parse-Application-Id": "UKB9QAriw4ABOGRwOJ67fXj2Iypx7UQPhj5ZdR66",
-  "X-Parse-REST-API-Key": "FQ3wONUU2tFb7o8I7nszpAlQkMoxMS6FEbcpXkRz"
-}
+import DeviceAdd, { Alert } from './DeviceAdd';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DeviceList = () => {
   const classes = useStyles();
+  const headersObj = { ...requestHeaders, "X-Parse-Session-Token": getToken() };
   const [btnDeleteLoading, setBtnDeleteLoading] = useState(false);
   const [devices, setDevices] = useState([]);
   const [showDeviceAdd, setShowDeviceAdd] = useState(false);
