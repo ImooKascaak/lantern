@@ -2,12 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { setUserSession } from '../utils/Common';
 
-// const headersObj = {
-//   "Content-Type": "application/json",
-//   "X-Parse-Application-Id": "UKB9QAriw4ABOGRwOJ67fXj2Iypx7UQPhj5ZdR66",
-//   "X-Parse-REST-API-Key": "FQ3wONUU2tFb7o8I7nszpAlQkMoxMS6FEbcpXkRz"
-// }
-
 function Login(props) {
   const [loading, setLoading] = useState(false);
   const username = useFormInput('');
@@ -29,7 +23,6 @@ function Login(props) {
       })
       .then(response => {
         setLoading(false);
-        console.log(response);
         setUserSession(response.data.sessionToken, response.data.username);
         props.history.push('/');
       }).catch(error => {

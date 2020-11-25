@@ -5,7 +5,6 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Paper,
   Select,
   Snackbar,
   TextField,
@@ -14,7 +13,7 @@ import {
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Alert = (props) => {
+export const Alert = (props) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
@@ -22,11 +21,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(1),
   },
-  paper: {
-    padding: theme.spacing(5),
-    margin: theme.spacing(4, 0, 0),
+  wrapper: {
+    padding: theme.spacing(3, 0, 0),
     [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(3),
+      padding: theme.spacing(0),
     },
   },
   title: {
@@ -69,7 +67,7 @@ const DeviceAdd = (props) => {
     axios.post('https://parse-wandera.herokuapp.com/parse/classes/Device', newDevice, { headers: headersObj })
       .then(res => {
         resetForm();
-        setSnackbarMessage(`Device '${newDevice.deviceName}' was created.`);
+        setSnackbarMessage(`Device '${newDevice.deviceName}' was successfully created.`);
         setSnackbarOpen(true);
         setBtnSubmitLoading(false);
       })
@@ -91,7 +89,7 @@ const DeviceAdd = (props) => {
     event.preventDefault();
   }
 
-  const handleClose = (event, reason) => {
+  const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -100,14 +98,8 @@ const DeviceAdd = (props) => {
 
   return (
     <div className={classes.root}>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleGoBack}
-      >
-        &#60; Go Back
-      </Button>
-      <Paper className={classes.paper} elevation={3}>
+      <Button variant="contained" onClick={handleGoBack}>&#60; Go Back</Button>
+      <div className={classes.wrapper}>
         <Typography variant="h3" color="inherit" className={classes.title}>
           Add new device...
         </Typography>
@@ -168,14 +160,14 @@ const DeviceAdd = (props) => {
             {btnSubmitLoading ? 'Creating ...' : 'Create'}
           </Button>
         </form>
-      </Paper>
+      </div>
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right', }}
         open={snackbarOpen}
         autoHideDuration={6000}
-        onClose={handleClose}
+        onClose={handleSnackbarClose}
       >
-        <Alert onClose={handleClose} severity="success">
+        <Alert onClose={handleSnackbarClose} severity="success">
           {snackbarMessage}
         </Alert>
       </Snackbar>
