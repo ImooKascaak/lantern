@@ -22,9 +22,11 @@ export const setUserSession = (token, user) => {
   sessionStorage.setItem('user', JSON.stringify(user));
 }
 
-// headers for calling post / put operation
-export const requestHeaders = {
-  "Content-Type": "application/json",
-  "X-Parse-Application-Id": "UKB9QAriw4ABOGRwOJ67fXj2Iypx7UQPhj5ZdR66",
-  "X-Parse-Rest-Api-Key": "FQ3wONUU2tFb7o8I7nszpAlQkMoxMS6FEbcpXkRz"
+// return the request headers for calling post / put operation
+export const getHeaders = () => {
+  return {
+    "Content-Type": "application/json",
+    "X-Parse-Application-Id": "UKB9QAriw4ABOGRwOJ67fXj2Iypx7UQPhj5ZdR66",
+    "X-Parse-Rest-Api-Key": "FQ3wONUU2tFb7o8I7nszpAlQkMoxMS6FEbcpXkRz"
+  }
 }

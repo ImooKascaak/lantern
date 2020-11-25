@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import {
   Button,
@@ -9,7 +9,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { DataGrid } from '@material-ui/data-grid';
 
-import { getToken, requestHeaders } from '../utils/Common';
+import { getHeaders, getToken } from '../utils/Common';
 
 import DeviceAdd, { Alert } from './DeviceAdd';
 
@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DeviceList = () => {
   const classes = useStyles();
-  const headersObj = { ...requestHeaders, "X-Parse-Session-Token": getToken() };
+  const headersObj = { ...getHeaders(), "X-Parse-Session-Token": getToken() };
   const [btnDeleteLoading, setBtnDeleteLoading] = useState(false);
   const [devices, setDevices] = useState([]);
   const [showDeviceAdd, setShowDeviceAdd] = useState(false);
@@ -111,11 +111,7 @@ const DeviceList = () => {
     },
   ];
 
-  useEffect(() => {
-    getDevices();
-  }, [showDeviceAdd]);
-
-  const getDevices = () => {
+  const getDevices = useCallback(() => {
     axios.get('https://parse-wandera.herokuapp.com/parse/classes/Device', { headers: headersObj })
       .then(res => {
         res.data['results'].map(device => (device.id = device.objectId));
@@ -124,7 +120,11 @@ const DeviceList = () => {
       .catch(err => {
         console.error(err);
       })
-  }
+  }, []);
+
+  useEffect(() => {
+    getDevices();
+  }, [showDeviceAdd, getDevices]);
 
   const handleDeviceDelete = (deletedObjectId, deletedDeviceName) => {
     setBtnDeleteLoading(true);
@@ -140,11 +140,11 @@ const DeviceList = () => {
         setBtnDeleteLoading(false);
         console.error(err);
       })
-  }
+  };
 
   const handleDeviceAdd = (_showDeviceAdd) => {
     setShowDeviceAdd(_showDeviceAdd);
-  }
+  };
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {

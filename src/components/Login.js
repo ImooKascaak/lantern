@@ -6,7 +6,7 @@ import {
   TextField,
   Typography
 } from '@material-ui/core';
-import { requestHeaders, setUserSession } from '../utils/Common';
+import { getHeaders, setUserSession } from '../utils/Common';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -51,7 +51,7 @@ const Login = (props) => {
     setError(null);
     setLoading(true);
 
-    axios.get(`https://parse-wandera.herokuapp.com/parse/login?username=${username}&password=${password}`, { headers: requestHeaders })
+    axios.get(`https://parse-wandera.herokuapp.com/parse/login?username=${username}&password=${password}`, { headers: getHeaders() })
       .then(response => {
         setLoading(false);
         setUserSession(response.data.sessionToken, response.data.username);
