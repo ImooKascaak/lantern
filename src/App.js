@@ -56,7 +56,7 @@ function App() {
   const handleLogout = () => {
     removeUserSession();
     setAuth(false);
-  }
+  };
 
   return (
     <div className={classes.App}>
@@ -72,7 +72,7 @@ function App() {
         <main className={classes.content}>
           <Switch>
             <PrivateRoute exact path="/" component={Dashboard} />
-            <PublicRoute path="/login" component={Login} render={{}} />
+            <PublicRoute path="/login" component={Login} />
           </Switch>
         </main>
       </BrowserRouter>
