@@ -2,10 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import {
   Button,
+  IconButton,
   Paper,
   Snackbar,
   Typography
 } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
 import { DataGrid } from '@material-ui/data-grid';
 
@@ -77,18 +79,18 @@ const DeviceList = () => {
       description: 'Press the ' - ' button to delete the current device',
       sortable: false,
       align: 'center',
-      width: 90,
+      width: 80,
       disableClickEventBubbling: true,
       renderCell: (params) => {
         return (
-          <Button
-            variant="contained"
-            color="primary"
+          <IconButton
+            aria-label="delete"
+            className={classes.margin}
             onClick={() => handleDeviceDelete(params.data.objectId, params.data.deviceName)}
             disabled={btnDeleteLoading}
           >
-            Del
-          </Button>
+            <DeleteIcon />
+          </IconButton>
         )
       }
     },
